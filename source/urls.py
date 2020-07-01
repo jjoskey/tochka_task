@@ -16,6 +16,13 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
+from accounts.api.views import add_view, substract_view, status_view
+from .views import ping_view
+
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('api/ping', ping_view, name='ping'),
+    path('api/add', add_view, name='add'),
+    path('api/substract', substract_view, name='substract'),
+    path('api/status', status_view, name='status')
 ]
