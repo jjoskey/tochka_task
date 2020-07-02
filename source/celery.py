@@ -11,3 +11,8 @@ app = Celery('source')
 app.config_from_object('source.celery_config')
 
 app.autodiscover_tasks()
+
+
+@app.task(bind=True)
+def debug_task(self):
+    return 'Request: {0!r}'.format(self.request.task)

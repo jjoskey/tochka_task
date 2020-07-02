@@ -16,3 +16,4 @@ docker-compose-dev.yml
 __data__/*
 _project_/settings_local.py
 _project_/static/bower_components
+celerybeat.pid
