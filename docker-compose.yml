@@ -1,0 +1,56 @@
+version: '3'
+services:
+  nginx:
+    build:
+      context: .
+      dockerfile: Dockerfile-nginx
+    ports:
+      - "80:80"
+    depends_on:
+      - web
+
+  redis:
+    image: redis:5.0
+    ports:
+      - 6379:6379
+
+  postgres:
+    image: postgres:11.1-alpine
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_DB: tochka_task
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+
+  web:
+    restart: on-failure:3
+    build: .
+    command: ./docker-entrypoint.sh
+    volumes:
+      - .:/code
+    depends_on:
+      - postgres
+      - redis
+
+  celery:
+    restart: always
+    build: .
+    command: celery -A source worker -l info
+    volumes:
+      - .:/code
+    depends_on:
+      - web
+      - redis
+      - postgres
+
+  celery-beat:
+    restart: always
+    build: .
+    command: celery -A source beat -l info --pidfile="/tmp/celerybeat.pid"
+    volumes:
+      - .:/code
+    depends_on:
+      - web
+      - redis
+      - postgres

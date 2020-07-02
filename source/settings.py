@@ -84,14 +84,14 @@ DATABASES = {
         'NAME': 'tochka_task',
         'USER': 'postgres',
         'PASSWORD': 'postgres',
-        'HOST': '0.0.0.0',
+        'HOST': 'postgres',
         'PORT': '5432',
         'ATOMIC_REQUESTS': True
     }
 }
 
 
-REDIS_URL = 'redis://@127.0.0.1:6379'
+REDIS_URL = 'redis://@redis:6379'
 
 CACHES = {
     "default": {

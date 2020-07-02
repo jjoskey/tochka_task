@@ -8,6 +8,7 @@ fake = faker.Faker()
 
 
 def test_write_off_holds_from_balances():
+    Account.objects.all().delete()
     accounts = AccountFactory.create_batch(size=fake.random_int(5, 10))
     initial_data = {
         str(account.uuid):
